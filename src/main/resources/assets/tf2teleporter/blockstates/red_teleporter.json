@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "tf2teleporter:block/teleporter" }
+  }
+}

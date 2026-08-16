@@ -1,0 +1,6 @@
+{
+  "block.tf2teleporter.red_teleporter": "Teleporter TF2 RED",
+  "block.tf2teleporter.blue_teleporter": "Teleporter TF2 BLU",
+  "gui.tf2teleporter.frequency": "Częstotliwość",
+  "gui.tf2teleporter.inUse": "Częstotliwość jest już zajęta!"
+}

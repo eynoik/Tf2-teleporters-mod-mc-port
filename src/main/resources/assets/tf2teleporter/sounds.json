@@ -1,0 +1,14 @@
+{
+  "spin": {
+    "category": "master",
+    "sounds": [
+      { "name": "tf2teleporter:spin", "stream": false }
+    ]
+  },
+  "teleport": {
+    "category": "master",
+    "sounds": [
+      { "name": "tf2teleporter:teleport", "stream": false }
+    ]
+  }
+}

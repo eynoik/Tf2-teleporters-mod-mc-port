@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "tf2teleporter:model/tf2_teleporter_base"
+  }
+}
