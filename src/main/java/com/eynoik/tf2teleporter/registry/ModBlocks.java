@@ -18,7 +18,7 @@ public final class ModBlocks {
     private static BlockBehaviour.Properties teleporterProperties() {
         return BlockBehaviour.Properties.of()
                 .mapColor(MapColor.METAL)
-                .strength(2.0F)
+                .strength(3.0F, 2000.0F)
                 .sound(SoundType.METAL)
                 .noOcclusion();
     }
