@@ -26,6 +26,8 @@ public final class TF2TeleporterMod {
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS) {
             event.accept(ModBlocks.RED_TELEPORTER_ITEM);
             event.accept(ModBlocks.BLUE_TELEPORTER_ITEM);
+            event.accept(ModBlocks.TELEPORTER_BASE);
+            event.accept(ModBlocks.TELEPORTER_PROPELLER);
         }
     }
 }

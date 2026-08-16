@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["XXX", " X ", "XXX"],
+  "key": {"X": {"item": "minecraft:iron_ingot"}},
+  "result": {"count": 1, "id": "tf2teleporter:teleporter_base"}
+}

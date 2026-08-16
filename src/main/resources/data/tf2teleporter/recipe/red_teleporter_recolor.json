@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": ["X", "Y"],
+  "key": {
+    "X": {"item": "minecraft:red_dye"},
+    "Y": {"item": "tf2teleporter:blue_teleporter"}
+  },
+  "result": {"count": 1, "id": "tf2teleporter:red_teleporter"}
+}

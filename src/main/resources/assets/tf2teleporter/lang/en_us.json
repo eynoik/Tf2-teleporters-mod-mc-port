@@ -1,6 +1,8 @@
 {
   "block.tf2teleporter.red_teleporter": "TF2 Teleporter Red",
   "block.tf2teleporter.blue_teleporter": "TF2 Teleporter Blu",
+  "item.tf2teleporter.teleporter_base": "TF2 Teleporter Base",
+  "item.tf2teleporter.teleporter_propeller": "TF2 Teleporter Propeller",
   "gui.tf2teleporter.frequency": "Frequency",
   "gui.tf2teleporter.inUse": "Frequency is already in use!"
 }

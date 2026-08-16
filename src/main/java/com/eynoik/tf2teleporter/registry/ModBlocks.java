@@ -3,6 +3,7 @@ package com.eynoik.tf2teleporter.registry;
 import com.eynoik.tf2teleporter.TF2TeleporterMod;
 import com.eynoik.tf2teleporter.block.TeleporterBlock;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
@@ -34,8 +35,15 @@ public final class ModBlocks {
             teleporterProperties()
     );
 
-    public static final DeferredItem<BlockItem> RED_TELEPORTER_ITEM = ITEMS.registerSimpleBlockItem("red_teleporter", RED_TELEPORTER);
-    public static final DeferredItem<BlockItem> BLUE_TELEPORTER_ITEM = ITEMS.registerSimpleBlockItem("blue_teleporter", BLUE_TELEPORTER);
+    public static final DeferredItem<Item> TELEPORTER_BASE =
+            ITEMS.registerSimpleItem("teleporter_base", properties -> properties.stacksTo(1));
+    public static final DeferredItem<Item> TELEPORTER_PROPELLER =
+            ITEMS.registerSimpleItem("teleporter_propeller", properties -> properties.stacksTo(1));
+
+    public static final DeferredItem<BlockItem> RED_TELEPORTER_ITEM =
+            ITEMS.registerSimpleBlockItem("red_teleporter", RED_TELEPORTER, properties -> properties.stacksTo(1));
+    public static final DeferredItem<BlockItem> BLUE_TELEPORTER_ITEM =
+            ITEMS.registerSimpleBlockItem("blue_teleporter", BLUE_TELEPORTER, properties -> properties.stacksTo(1));
 
     private ModBlocks() {
     }
