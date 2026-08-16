@@ -36,14 +36,14 @@ public final class ModBlocks {
     );
 
     public static final DeferredItem<Item> TELEPORTER_BASE =
-            ITEMS.registerSimpleItem("teleporter_base", properties -> properties.stacksTo(1));
+            ITEMS.registerSimpleItem("teleporter_base", new Item.Properties().stacksTo(1));
     public static final DeferredItem<Item> TELEPORTER_PROPELLER =
-            ITEMS.registerSimpleItem("teleporter_propeller", properties -> properties.stacksTo(1));
+            ITEMS.registerSimpleItem("teleporter_propeller", new Item.Properties().stacksTo(1));
 
     public static final DeferredItem<BlockItem> RED_TELEPORTER_ITEM =
-            ITEMS.registerSimpleBlockItem("red_teleporter", RED_TELEPORTER, properties -> properties.stacksTo(1));
+            ITEMS.registerSimpleBlockItem("red_teleporter", RED_TELEPORTER, new Item.Properties().stacksTo(1));
     public static final DeferredItem<BlockItem> BLUE_TELEPORTER_ITEM =
-            ITEMS.registerSimpleBlockItem("blue_teleporter", BLUE_TELEPORTER, properties -> properties.stacksTo(1));
+            ITEMS.registerSimpleBlockItem("blue_teleporter", BLUE_TELEPORTER, new Item.Properties().stacksTo(1));
 
     private ModBlocks() {
     }
