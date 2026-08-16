@@ -63,6 +63,62 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 sourceSets.main.resources.srcDir generateModMetadata
 neoForge.ideSyncTask generateModMetadata
 
+var generatedLegacyResources = layout.buildDirectory.dir("generated/legacyAssets")
+
+var decodeLegacyAssets = tasks.register("decodeLegacyAssets") {
+    inputs.files(fileTree("legacy-assets") { include "**/*.b64.*" })
+    outputs.dir(generatedLegacyResources)
+
+    doLast {
+        def root = generatedLegacyResources.get().asFile
+
+        def decodeFromParts = { String prefix, String outputPath, String expectedSha256 ->
+            def parts = fileTree("legacy-assets") {
+                include "${prefix}.b64.*"
+            }.files.toList().sort { a, b -> a.name <=> b.name }
+
+            if (parts.isEmpty()) {
+                throw new GradleException("Missing legacy asset parts: ${prefix}")
+            }
+
+            def encoded = parts.collect { it.getText("UTF-8") }.join("")
+            byte[] bytes = java.util.Base64.getMimeDecoder().decode(encoded)
+            byte[] digestBytes = java.security.MessageDigest.getInstance("SHA-256").digest(bytes)
+            def digest = digestBytes.encodeHex().toString()
+
+            if (digest != expectedSha256) {
+                throw new GradleException("Hash mismatch for ${outputPath}: expected ${expectedSha256}, got ${digest}")
+            }
+
+            def out = new File(root, outputPath)
+            out.parentFile.mkdirs()
+            out.bytes = bytes
+            logger.lifecycle("Verified original asset ${outputPath} (${digest})")
+        }
+
+        decodeFromParts(
+                "gui/gui_teleporter",
+                "assets/tf2teleporter/textures/gui/gui_teleporter.png",
+                "fad06e07287b61aa2ee237971bdc725b580d71b854d22b6b80555751d6f2ac0d"
+        )
+        decodeFromParts(
+                "sounds/spin",
+                "assets/tf2teleporter/sounds/spin.ogg",
+                "44d231b0e93e31867abbf78186a8c46c76cf50330a590d104f47b186501020d6"
+        )
+        decodeFromParts(
+                "sounds/teleport",
+                "assets/tf2teleporter/sounds/teleport.ogg",
+                "151e8d998735e99a13aadb1b8a406e45d01b065f5bfb90a4e3927a83b89536f2"
+        )
+    }
+}
+
+sourceSets.main.resources.srcDir(generatedLegacyResources)
+tasks.named("processResources").configure {
+    dependsOn(decodeLegacyAssets)
+}
+
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
