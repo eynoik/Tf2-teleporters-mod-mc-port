@@ -85,7 +85,7 @@ public final class TeleporterBlockEntity extends BlockEntity {
                     pos.getZ() + 0.5D,
                     ModSounds.SPIN.get(),
                     SoundSource.MASTER,
-                    0.05F,
+                    0.08F,
                     1.0F,
                     false
             );
@@ -162,7 +162,7 @@ public final class TeleporterBlockEntity extends BlockEntity {
                 pos.getZ() + 0.5D,
                 ModSounds.TELEPORT.get(),
                 SoundSource.MASTER,
-                0.2F,
+                0.30F,
                 1.0F
         );
         level.sendParticles(
