@@ -1,0 +1,84 @@
+name: Publish 1.0.0
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/publish-release.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java 21
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '9.2.1'
+
+      - name: Build and verify legacy assets
+        run: gradle build --stacktrace
+
+      - name: Verify final JAR
+        run: |
+          JAR='build/libs/tf2teleporter-1.0.0.jar'
+          test -f "$JAR"
+          for path in \
+            data/tf2teleporter/recipe/teleporter_base_a.json \
+            data/tf2teleporter/recipe/teleporter_base_b.json \
+            data/tf2teleporter/recipe/teleporter_propeller.json \
+            data/tf2teleporter/recipe/red_teleporter.json \
+            data/tf2teleporter/recipe/blue_teleporter.json \
+            data/tf2teleporter/recipe/red_teleporter_recolor.json \
+            data/tf2teleporter/recipe/blue_teleporter_recolor.json \
+            assets/tf2teleporter/textures/gui/gui_teleporter.png \
+            assets/tf2teleporter/sounds/spin.ogg \
+            assets/tf2teleporter/sounds/teleport.ogg \
+            assets/tf2teleporter/textures/item/teleporter_base.png \
+            assets/tf2teleporter/textures/item/teleporter_propeller.png; do
+            jar tf "$JAR" | grep -Fx "$path"
+          done
+
+      - name: Write release notes
+        run: |
+          cat > release-notes.md <<'EOF'
+          Final 1.0.0 release of the TF2 Teleporters port for Minecraft 1.21.1 NeoForge.
+
+          Highlights:
+          - RED and BLU teleporters with the original model, GUI, textures and sounds
+          - Frequencies 1-99 with a maximum of two teleporters per frequency per dimension
+          - Player and mob teleportation with anti-bounce cooldown
+          - Original crafting progression, component items and recoloring recipes restored
+          - Frequency assignments persist across world/server restarts
+          - Legacy chunk handling replaced with modern per-dimension SavedData
+          - Spin sound increased from 0.05 to 0.08 volume
+          - Teleport sound increased from 0.20 to 0.30 volume
+          - Teleporter block durability increased to hardness 3.0 with 2000 blast resistance
+          - README rewritten for the finished port
+
+          The core gameplay has been live-tested successfully. Automated build and legacy asset-integrity checks also pass before this release is published.
+          EOF
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create v1.0.0 \
+            'build/libs/tf2teleporter-1.0.0.jar#TF2 Teleporters 1.21.1 - 1.0.0' \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title 'TF2 Teleporters 1.21.1 — 1.0.0' \
+            --notes-file release-notes.md \
+            --latest
