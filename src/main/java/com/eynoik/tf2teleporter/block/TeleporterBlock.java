@@ -3,13 +3,14 @@ package com.eynoik.tf2teleporter.block;
 import com.eynoik.tf2teleporter.blockentity.TeleporterBlockEntity;
 import com.eynoik.tf2teleporter.menu.TeleporterMenu;
 import com.eynoik.tf2teleporter.registry.ModBlockEntities;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.SimpleMenuProvider;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -25,12 +26,19 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public final class TeleporterBlock extends BaseEntityBlock {
+    private static final MapCodec<TeleporterBlock> RED_CODEC = simpleCodec(properties -> new TeleporterBlock(properties, TeamColor.RED));
+    private static final MapCodec<TeleporterBlock> BLUE_CODEC = simpleCodec(properties -> new TeleporterBlock(properties, TeamColor.BLUE));
     private static final VoxelShape SHAPE = box(0.0D, 0.0D, 0.0D, 16.0D, 4.8D, 16.0D);
     private final TeamColor teamColor;
 
     public TeleporterBlock(BlockBehaviour.Properties properties, TeamColor teamColor) {
         super(properties);
         this.teamColor = teamColor;
+    }
+
+    @Override
+    protected MapCodec<? extends BaseEntityBlock> codec() {
+        return teamColor == TeamColor.RED ? RED_CODEC : BLUE_CODEC;
     }
 
     public TeamColor getTeamColor() {
